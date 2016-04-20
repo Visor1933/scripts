@@ -1,0 +1,5 @@
+#!/bin/sh
+source "/usr/share/V1933/variables"
+cd "$wd"
+mv "./disabled/$1" "./$1"
+sudo -p sudo ln -s "$wd/$1" "/usr/bin/$1"

@@ -1,0 +1,3 @@
+#!/bin/sh
+cd ~/Downloads/
+rm -f ~/viplombard/images/* && unzip *.zip -d ~/viplombard/images/ && rm -f *.zip

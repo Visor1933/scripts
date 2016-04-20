@@ -1,0 +1,3 @@
+#!/bin/sh
+cd ~
+su -c "ausearch -c $1|audit2allow -M mypol&&semodule -i mypol.pp"

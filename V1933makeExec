@@ -1,0 +1,11 @@
+#!/bin/sh
+source /usr/share/V1933/variables
+cd "$wd"
+if [ -f $1 ]; then
+	chmod +x $1
+	if [ -L /usr/bin/$1 ]; then
+		echo "file exists"
+	else
+		sudo -p sudo ln -s "$wd/$1" "/usr/bin/$1"
+	fi
+fi
