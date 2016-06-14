@@ -1,0 +1,4 @@
+#!/bin/sh
+source /usr/share/V1933/variables
+rm -f $HOME/Ex
+ln -s $HOME/Ex $HOME/Root/$1
