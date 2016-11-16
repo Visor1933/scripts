@@ -4,3 +4,4 @@ NOW=$(date +"Photos%Y%m%d")
 mkdir $NOW
 cd $NOW
 gphoto2 -P --skip-existing
+
