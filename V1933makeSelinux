@@ -1,3 +1,5 @@
 #!/bin/sh
-cd ~
-su -c "ausearch -c $1|audit2allow -M mypol&&semodule -i mypol.pp"
+cd ~/SELinuxPolicys
+shortname=$(echo $1|sed -e 's/-//g')
+echo $shortname
+su -c "ausearch -c '$1' --raw | audit2allow -M my-$shortname && semodule -X 300 -i my-$shortname.pp"

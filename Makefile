@@ -5,12 +5,14 @@ install:
 	cp variables /usr/share/V1933/
 	cp defaultTex /usr/share/V1933/initTex/
 	#mv db.xml /usr/share/V1933/
+	gcc -O2 -o V1933bigComment ./bigComment/V1933bigComment.c
 	./V1933makeExec V1933makeExec
 	V1933makeExec getphotos
 	V1933makeExec initbash
 	V1933makeExec initsh
 	V1933makeExec initTex
 	V1933makeExec rmphotos
+	V1933makeExec V1933bigComment
 	V1933makeExec V1933disableExec
 	V1933makeExec V1933enableExec
 	V1933makeExec V1933makeSelinux
@@ -24,3 +26,4 @@ finish:
 
 dep:
 	test -e /bin/gphoto2 || dnf -y install gphoto2
+
