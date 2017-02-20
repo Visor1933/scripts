@@ -1,5 +1,9 @@
 #!/bin/sh
-cd ~/SELinuxPolicys
+DIR=~/SELinuxPolicys
+if [ ! -d $DIR ]; then
+	mkdir $DIR 
+fi
+cd $DIR
 shortname=$(echo $1|sed -e 's/-//g')
 echo $shortname
 su -c "ausearch -c '$1' --raw | audit2allow -M my-$shortname && semodule -X 300 -i my-$shortname.pp"

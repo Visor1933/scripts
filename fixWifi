@@ -1,0 +1,28 @@
+#!/bin/sh
+build(){
+	sudo -p sudo modprobe -r wl
+	sleep 1
+	sudo akmods --force
+	sleep 1
+	sudo modprobe wl
+	sleep 1
+}
+
+connect(){
+	sudo nmcli con reload
+	sudo nmcli dev disconnect wlp5s0
+	sudo nmcli con up Visor2015
+	return $?
+}
+
+build
+while true; do
+	connect
+	exitStatus=$?
+	if (( $exitStatus != 0 )); then
+		echo "FAILED, RETRYING $exitStatus"|grep --color .\*
+	else
+		echo "SUCCESS $exitStatus"|grep --color .\*
+		break
+	fi
+done

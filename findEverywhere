@@ -1,0 +1,20 @@
+#!/bin/sh
+START=`printf "${2%/}"`
+THIS=""
+if [ ! -z $START ] ; then
+	THIS=.
+fi
+PIDS=""
+for d in `ls -A $START/` $THIS;
+do
+	if [ -d $START/$d ] ; then
+		cd "$START/$d" 2>/dev/null
+		PWD=`pwd`
+		if [ $PWD != "/proc" -a $PWD != "/var" -a $PWD != "/boot" ] ; then
+			printf "looking up $START/$d\n"
+			((find $PWD 2>/dev/null)|grep -io ".*\\?$1[^/]*"|sort -u|grep -i --colour "$1") &
+			PIDS="$PIDS $!"
+		fi
+	fi
+done
+wait $PIDS

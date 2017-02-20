@@ -4,8 +4,8 @@ cd "$wd"
 if [ -f $1 ]; then
 	chmod +x $1
 	if [ -L /usr/bin/$1 ]; then
-		echo "file exists"
+		echo "$1 allready exists"
 	else
-		sudo -p sudo ln -s "$wd/$1" "/usr/bin/$1"
+		sudo -p "sudo password for creating symboled link in /usr/bin" ln -s "$wd/$1" "/usr/bin/$1"
 	fi
 fi
