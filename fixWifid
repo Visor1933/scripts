@@ -1,0 +1,8 @@
+#!/bin/bash
+while true; do
+	WLANTRUE=`ping -c 1 192.168.0.1 2>&1|grep -oi Network\ is\ unreachable `
+	if [ -n "$WLANTRUE" ]; then
+		xfce4-terminal --command=fixWifi
+	fi
+	sleep 10
+done
