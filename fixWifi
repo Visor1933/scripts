@@ -23,26 +23,24 @@ connect(){
 	return $?
 }
 
-exitStatus=1
-if (( $exitStatus != 0 )); then
-	build
-	for con in $CON; do
-		for dev in $DEV; do
-			if [ -z $con -o -z $dev ]; then
-				continue
+build
+for con in $CON; do
+	for dev in $DEV; do
+		if [ -z $con -o -z $dev ]; then
+			continue
+		fi
+		i=0
+		while [ $i -ne 10 ]; do
+			((i++))
+			connect $dev $con
+			exitStatus=$?
+			if [ $exitStatus -ne 0 ]; then
+				echo "FAILED, RETRYING $exitStatus"|grep --color .\*
+			else
+				echo "SUCCESS $exitStatus"|grep --color .\*
+				exit
 			fi
-			i=0
-			while [ $i -ne 10 ]; do
-				((i++))
-				connect $dev $con
-				exitStatus=$?
-				if [ $exitStatus -ne 0 ]; then
-					echo "FAILED, RETRYING $exitStatus"|grep --color .\*
-				else
-					echo "SUCCESS $exitStatus"|grep --color .\*
-					exit
-				fi
-			done
 		done
 	done
-fi
+done
+
