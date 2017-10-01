@@ -1,6 +1,13 @@
 #!/bin/sh
+CON=$(nmcli con 2>/dev/null|grep --color=no -o -P "^\S+")
+CON=${CON#NAME}
+DEV=$(iwconfig 2>/dev/null|grep -o --color=no -P ^wlp\\S+)
+echo "CON: $CON"
+echo "DEV: $DEV"
+
 build(){
-	sudo -p sudo modprobe -r wl
+	echo "building module"
+	sudo -p "sudo password for modprobe" modprobe -r wl
 	sleep 1
 	sudo akmods --force
 	sleep 1
@@ -9,29 +16,33 @@ build(){
 }
 
 connect(){
-	sudo nmcli con reload
-	sudo nmcli dev disconnect wlp5s0
-	sudo nmcli con up Visor2015
+	echo "connecting to $2 via $1"
+	sudo -p "sudo password for wifi controll" nmcli con reload
+	sudo nmcli dev disconnect $1
+	sudo nmcli con up $2
 	return $?
 }
 
-connect
-exitStatus=$?
+exitStatus=1
 if (( $exitStatus != 0 )); then
 	build
-	((i=0))
-	while true; do
-		((i++))
-		connect
-		exitStatus=$?
-		if (( $exitStatus != 0 )); then
-			echo "FAILED, RETRYING $exitStatus"|grep --color .\*
-		else
-			echo "SUCCESS $exitStatus"|grep --color .\*
-			break
-		fi
-		if ((i == 10)); then
-			break
-		fi
+	for con in $CON; do
+		for dev in $DEV; do
+			if [ -z $con -o -z $dev ]; then
+				continue
+			fi
+			i=0
+			while [ $i -ne 10 ]; do
+				((i++))
+				connect $dev $con
+				exitStatus=$?
+				if [ $exitStatus -ne 0 ]; then
+					echo "FAILED, RETRYING $exitStatus"|grep --color .\*
+				else
+					echo "SUCCESS $exitStatus"|grep --color .\*
+					exit
+				fi
+			done
+		done
 	done
 fi
