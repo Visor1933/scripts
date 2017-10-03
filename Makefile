@@ -3,15 +3,15 @@ cur-dir  = $(shell pwd)
 whoami   = $(shell whoami)
 
 install:
-	if [ ! -d $(sharedir) ] ; then \
-		sudo -p "sudo password for mkdir in /usr/share/" mkdir $(sharedir) ;\
-	fi
+	test -d $(sharedir) || sudo -p "sudo password for mkdir in /usr/share/" mkdir $(sharedir) && sudo chown $(whoami) $(sharedir)
 	echo "wd=$(cur-dir)" > variables
 	sudo mv variables ${sharedir}/
-	gcc -O3 -o V1933bigComment ./bigComment/V1933bigComment.c
+	mkdir localScripts
+	gcc -march=native -O3 -pipe -o V1933bigComment ./bigComment/V1933bigComment.c
 	sh ./V1933makeExec V1933makeExec && \
 	if [ -e /usr/bin/V1933makeExec ] ; then \
 		V1933makeExec fixWifi & \
+		V1933makeExec fixWifid & \
 		V1933makeExec getphotos & \
 		V1933makeExec initbash & \
 		V1933makeExec initsh & \
@@ -33,6 +33,7 @@ dep:
 uninstall:
 	sudo -p "sudo password for removing symlinks in /usr/bin/ and programms own folder in /usr/share/" \
 	rm -rf /usr/bin/fixWifi \
+	       /usr/bin/fixWifid \
 		   /usr/bin/getphotos \
 		   /usr/bin/initbash \
 		   /usr/bin/initsh \

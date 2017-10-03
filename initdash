@@ -1,0 +1,4 @@
+#!/bin/sh
+echo '#!/bin/dash' > $1
+vim $1
+chmod +x $1
