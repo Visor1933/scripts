@@ -1,50 +1,52 @@
 #!/bin/sh
-CON=$(nmcli con 2>/dev/null|grep --color=no -o -P "^\S+")
-CON=${CON#NAME}
-DEV=$(iwconfig 2>/dev/null|grep -o --color=no -P ^wlp\\S+)
-echo "CON: $CON"
-echo "DEV: $DEV"
-
-build(){
-	echo "building module"
-	sudo -p "sudo password for modprobe" modprobe -r wl
-	sleep 1
-	sudo akmods --force
-	sleep 1
-	sudo modprobe wl
-	sleep 1
-}
-
-connect(){
-	echo "connecting to $2 via $1"
-	sudo -p "sudo password for wifi controll" nmcli con reload
-	sudo nmcli dev disconnect $1
-	sudo nmcli con up $2
-	return $?
-}
-
-if ping -c 1 www.google.com >/dev/null 2>&1; then
-	echo connected
-else
-	build
-	for con in $CON; do
-		for dev in $DEV; do
-			if [ -z $con -o -z $dev ]; then
-				continue
-			fi
-			i=0
-			while [ $i -ne 10 ]; do
-				((i++))
-				connect $dev $con
-				exitStatus=$?
-				if [ $exitStatus -ne 0 ]; then
-					echo "FAILED, RETRYING $exitStatus"|grep --color .\*
-				else
-					echo "SUCCESS $exitStatus"|grep --color .\*
-					exit
-				fi
+if nmcli --version >/dev/null 2>&1 ; then
+	echo nmcli detected
+	CON=$(for file in $(grep TYPE=Wireless /etc/sysconfig/network-scripts/ifcfg-* | grep -o -P '^.*?(?=:)'); do { grep -o -P '(?<=^NAME=).*' $file ; } ; done)
+	DEV=$(iwconfig 2>/dev/null | grep -o --color=no -P "^wlp\S+" | sort -u)
+	echo "CON: $CON"
+	echo "DEV: $DEV"
+	
+	build(){
+		echo "building module"
+		sudo -p "sudo password for modprobe" modprobe -r wl
+		sleep 1
+		sudo akmods --force
+		sleep 1
+		sudo modprobe wl
+		sleep 1
+	}
+	
+	connect(){
+		echo "connecting to $2 via $1"
+		sudo -p "sudo password for wifi controll" nmcli con reload
+		sudo nmcli dev disconnect $1
+		sudo nmcli con up $2
+		return $?
+	}
+	
+	if ping -c 1 www.google.com >/dev/null 2>&1; then
+		echo connected
+	else
+		build
+		i=0
+		while [ $i -ne 10 ]; do
+			((i++))
+			for dev in $DEV; do
+				for con in $CON; do
+					if [ -z $con -o -z $dev ]; then
+						continue
+					fi
+					connect $dev $con
+					exitStatus=$?
+					if [ $exitStatus -ne 0 ]; then
+						echo "FAILED, RETRYING $exitStatus"|grep --color .\*
+					else
+						echo "SUCCESS $exitStatus"|grep --color .\*
+						exit
+					fi
+				done
 			done
 		done
-	done
+	fi
 fi
-
+	

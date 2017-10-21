@@ -10,6 +10,7 @@ install:
 	gcc -march=native -O3 -pipe -o V1933bigComment ./bigComment/V1933bigComment.c
 	sh ./V1933makeExec V1933makeExec && \
 	if [ -e /usr/bin/V1933makeExec ] ; then \
+		V1933makeExec findEverywhere & \
 		V1933makeExec fixWifi & \
 		V1933makeExec fixWifid & \
 		V1933makeExec getphotos & \
