@@ -6,7 +6,7 @@ install:
 	test -d $(sharedir) || sudo -p "sudo password for mkdir in /usr/share/" mkdir $(sharedir) && sudo chown $(whoami) $(sharedir)
 	echo "wd=$(cur-dir)" > variables
 	sudo mv variables ${sharedir}/
-	mkdir localScripts
+	test -d localScripts || mkdir localScripts
 	gcc -march=native -O3 -pipe -o V1933bigComment ./bigComment/V1933bigComment.c
 	sh ./V1933makeExec V1933makeExec && \
 	if [ -e /usr/bin/V1933makeExec ] ; then \
@@ -21,9 +21,12 @@ install:
 		V1933makeExec rmExec & \
 		V1933makeExec rmphotos & \
 		V1933makeExec V1933bigComment & \
+		V1933makeExec V1933commit & \
 		V1933makeExec V1933disableExec & \
 		V1933makeExec V1933enableExec & \
 		V1933makeExec V1933makeSelinux & \
+		V1933makeExec V1933mvExec & \
+		V1933makeExec V1933rmExec & \
 		V1933makeExec viplombardUnzip & \
 	fi
 
