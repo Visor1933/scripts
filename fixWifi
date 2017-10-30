@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 FILE=/usr/share/V1933/variables
 test -e $FILE && . $FILE
 FILE=/usr/share/V1933/fixWifi
