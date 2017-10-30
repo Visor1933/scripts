@@ -33,6 +33,7 @@ install:
 dep:
 	test -e /bin/gphoto2 || dnf -y install gphoto2
 	test -e /bin/gcc     || dnf -y install gcc
+	test -e /bin/dash    || dnf -y install dash
 
 uninstall:
 	sudo -p "sudo password for removing symlinks in /usr/bin/ and programms own folder in /usr/share/" \
