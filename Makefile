@@ -53,6 +53,7 @@ uninstall:
 		   /usr/bin/V1933makeSelinux \
 		   /usr/bin/viplombardUnzip \
 		   /usr/share/V1933
+	test -e /var/tmp/fixWifid.log && rm /var/tmp/fixWifid.log
 
 clean:
 	rm -rf variables V1933bigComment
