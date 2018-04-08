@@ -7,12 +7,13 @@ isFixWifiInstalled(){
 	return 1
 }
 test isFixWifiInstalled || $(echo fixWifi script not in \$PATH ; exit 1)
-LOGFILE=/var/tmp/fixWifid.log
-echo $(date) Started Fixwifid >> "$LOGFILE"
+export LOGFILE=/var/tmp/fixWifid.log
+echo $(date) Started fixWifid >> "$LOGFILE"
+trap 'echo $(date) Stopping fixWifid >> "$LOGFILE"' EXIT
 sleep 10
 while : ;
 do sleep 10
-	ping -c 1 192.168.0.1 2>&1
+	ping -c 1 192.168.0.1 > /dev/null
 	WLANTRUE=$?
 	if [ $WLANTRUE -ne 0 ]; then
 		OUTPUT="$(date) $(fixWifi 2>&1 ; wait $!)"
