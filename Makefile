@@ -27,13 +27,12 @@ install:
 		V1933makeExec V1933makeSelinux & \
 		V1933makeExec V1933mvExec & \
 		V1933makeExec V1933rmExec & \
-		V1933makeExec viplombardUnzip & \
 	fi
 
 dep:
-	test -e /bin/gphoto2 || dnf -y install gphoto2
-	test -e /bin/gcc     || dnf -y install gcc
-	test -e /bin/dash    || dnf -y install dash
+	test -e /bin/gphoto2 || dnf -y install gphoto2 || emerge -v gphoto2
+	test -e /bin/gcc     || dnf -y install gcc || emerge -v gcc
+	test -e /bin/dash    || dnf -y install dash || emerge -v dash
 
 uninstall:
 	sudo -p "sudo password for removing symlinks in /usr/bin/ and programms own folder in /usr/share/" \
@@ -51,7 +50,6 @@ uninstall:
 		   /usr/bin/V1933enableExec \
 		   /usr/bin/V1933makeExec \
 		   /usr/bin/V1933makeSelinux \
-		   /usr/bin/viplombardUnzip \
 		   /usr/share/V1933
 	test -e /var/tmp/fixWifid.log && rm /var/tmp/fixWifid.log
 
