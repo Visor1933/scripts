@@ -6,16 +6,17 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 
-	int             i               = 0;
-	int             j               = 0;
-	int             effectiveStrlen = 0;
-	int            *arg;
-	char           *outString;
-	char           *printString;
-	char           *silent;
-	char           *spacing;
-	unsigned char  *maxChars;
-	params_t       *param;
+	int            i = 0;
+	int            j = 0;
+	int            effectiveStrlen = 0;
+	int            arg = 0;
+	char          *inpText;
+	char          *outString;
+	char          *printString;
+	char          *silent;
+	char          *spacing;
+	unsigned char *maxChars;
+	params_t      *param;
 
 
 	char space[] = "     ";
@@ -247,16 +248,17 @@ int main(int argc, char *argv[]){
 	// printString = (char*)malloc(sizeof(char));
 	
 	makeParams(param, &argc, argv);
-	arg       = &(param->arg);
-	silent    = &(param->silent);
+	arg       =   param->arg;
 	spacing   =   param->spacing;
+	silent    = &(param->silent);
 	maxChars  = &(param->maxChars);
+	inpText   = argv[arg];
 	
 	// counting printable characters
 	i = 0;
 	effectiveStrlen = 0;
-	while (*(argv[*arg] + i) != '\0'){
-		if (isPrintable(argv[*arg] + i)){
+	while (*(inpText + i) != '\0'){
+		if (isPrintable(inpText + i)){
 			effectiveStrlen++;
 		}
 		i++;
@@ -265,12 +267,12 @@ int main(int argc, char *argv[]){
 	outString = (char*)calloc(effectiveStrlen + 1, sizeof(char));
 	i = 0;
 	j = 0;
-	while (*(argv[*arg] + i) != '\0'){
-		if (isPrintable(argv[*arg] + i)){
-			if (isLowerCase(argv[*arg] + i)){
-				*(outString + j) = *(argv[*arg] + i) - 'a' + 'A';
+	while (*(inpText + i) != '\0'){
+		if (isPrintable(inpText + i)){
+			if (isLowerCase(inpText + i)){
+				*(outString + j) = *(inpText + i) - 'a' + 'A';
 			}else{
-				*(outString + j) = *(argv[*arg] + i);
+				*(outString + j) = *(inpText + i);
 			}
 			j++;
 		}
@@ -278,9 +280,11 @@ int main(int argc, char *argv[]){
 	}
 
 	if (!*silent && effectiveStrlen > *maxChars){
-		fprintf(stderr, "WARNING: string length exceeds max length\n"
-	                    "         max length is %d\n"
-					    "         printing only the first %d chars of the string\n", *maxChars, *maxChars);
+		fprintf(stderr,
+		        "WARNING: string length exceeds max length\n"
+		        "         max length is %d\n"
+		        "         printing only the first %d chars of the string\n",
+		        *maxChars, *maxChars);
 	}
 
 	// choosing the length = min(j, maxChars)
@@ -311,3 +315,4 @@ int main(int argc, char *argv[]){
 	}
 	exit(EXIT_SUCCESS);
 }
+

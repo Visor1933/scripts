@@ -1,5 +1,5 @@
 #!/bin/sh
-source /usr/share/V1933/variables
+. /usr/share/V1933/variables
 mv "$wd/$1" "$wd/$2"
 sudo -p sudo rm -f "/usr/bin/$1"
 sudo -p sudo ln -s "$wd/$2" "/usr/bin/$2"

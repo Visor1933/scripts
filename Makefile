@@ -7,9 +7,9 @@ install:
 	echo "wd=$(cur-dir)" > variables
 	sudo mv variables ${sharedir}/
 	test -d localScripts || mkdir localScripts
-	gcc -march=native -O3 -pipe -o V1933bigComment ./bigComment/V1933bigComment.c
-	sh ./V1933makeExec V1933makeExec && \
-	if [ -e /usr/bin/V1933makeExec ] ; then \
+	(cd bigComment && make && make clean && cp V1933bigComment ../)
+	sh ./V1933makeExec V1933makeExec
+	test -e /usr/bin/V1933makeExec && ( \
 		V1933makeExec findEverywhere & \
 		V1933makeExec fixWifi & \
 		V1933makeExec fixWifid & \
@@ -27,30 +27,30 @@ install:
 		V1933makeExec V1933makeSelinux & \
 		V1933makeExec V1933mvExec & \
 		V1933makeExec V1933rmExec & \
-	fi
+	)
+	sleep 1
 
 dep:
-	test -e /bin/gphoto2 || dnf -y install gphoto2 || emerge -v gphoto2
-	test -e /bin/gcc     || dnf -y install gcc || emerge -v gcc
-	test -e /bin/dash    || dnf -y install dash || emerge -v dash
+	test -e /bin/gphoto2 || dnf -y install gphoto2 || emerge -v gphoto2 || apt -y install gphoto2
+	test -e /bin/gcc     || dnf -y install gcc || emerge -v gcc || apt -y install gcc
+	test -e /bin/dash    || dnf -y install dash || emerge -v dash || apt -y install dash
 
 uninstall:
-	sudo -p "sudo password for removing symlinks in /usr/bin/ and programms own folder in /usr/share/" \
 	rm -rf /usr/bin/fixWifi \
 	       /usr/bin/fixWifid \
-		   /usr/bin/getphotos \
-		   /usr/bin/initbash \
-		   /usr/bin/initsh \
-		   /usr/bin/initTex \
-		   /usr/bin/mvExec \
-		   /usr/bin/rmExec \
-		   /usr/bin/rmphotos \
-		   /usr/bin/V1933bigComment \
-		   /usr/bin/V1933disableExec \
-		   /usr/bin/V1933enableExec \
-		   /usr/bin/V1933makeExec \
-		   /usr/bin/V1933makeSelinux \
-		   /usr/share/V1933
+	       /usr/bin/getphotos \
+	       /usr/bin/initbash \
+	       /usr/bin/initsh \
+	       /usr/bin/initTex \
+	       /usr/bin/mvExec \
+	       /usr/bin/rmExec \
+	       /usr/bin/rmphotos \
+	       /usr/bin/V1933bigComment \
+	       /usr/bin/V1933disableExec \
+	       /usr/bin/V1933enableExec \
+	       /usr/bin/V1933makeExec \
+	       /usr/bin/V1933makeSelinux \
+	       /usr/share/V1933
 	test -e /var/tmp/fixWifid.log && rm /var/tmp/fixWifid.log
 
 clean:

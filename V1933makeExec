@@ -1,5 +1,5 @@
 #!/bin/sh
-source /usr/share/V1933/variables
+. /usr/share/V1933/variables
 cd "$wd"
 if [ -f $1 ]; then
 	chmod +x $1
