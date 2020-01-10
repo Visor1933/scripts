@@ -7,6 +7,6 @@ if [ -f $1 ]; then
 	if [ -L /usr/local/bin/$1 ]; then
 		echo "$1 allready exists"
 	else
-		sudo -p "sudo password for creating symboled link in /usr/bin" ln -s "$wd/$1" "/usr/local/bin/$1"
+		sudo -p "sudo password for creating symboled link in /usr/local/bin" ln -s "$wd/$1" "/usr/local/bin/$1"
 	fi
 fi
