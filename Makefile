@@ -9,7 +9,7 @@ install:
 	test -d localScripts || mkdir localScripts
 	(cd bigComment && make && make clean && cp V1933bigComment ../)
 	sh ./V1933makeExec V1933makeExec
-	test -e /usr/bin/V1933makeExec && ( \
+	test -e /usr/local/bin/V1933makeExec && ( \
 		V1933makeExec findEverywhere & \
 		V1933makeExec fixWifi & \
 		V1933makeExec fixWifid & \
@@ -36,22 +36,22 @@ dep:
 	test -e /bin/dash    || dnf -y install dash || emerge -v dash || apt -y install dash
 
 uninstall:
-	rm -rf /usr/bin/fixWifi \
-	       /usr/bin/fixWifid \
-	       /usr/bin/getphotos \
-	       /usr/bin/initbash \
-	       /usr/bin/initsh \
-	       /usr/bin/initTex \
-	       /usr/bin/mvExec \
-	       /usr/bin/rmExec \
-	       /usr/bin/rmphotos \
-	       /usr/bin/V1933bigComment \
-	       /usr/bin/V1933disableExec \
-	       /usr/bin/V1933enableExec \
-	       /usr/bin/V1933makeExec \
-	       /usr/bin/V1933makeSelinux \
-	       /usr/share/V1933
-	test -e /var/tmp/fixWifid.log && rm /var/tmp/fixWifid.log
+	rm -rf /usr/local/bin/fixWifi \
+	       /usr/local/bin/fixWifid \
+	       /usr/local/bin/getphotos \
+	       /usr/local/bin/initbash \
+	       /usr/local/bin/initsh \
+	       /usr/local/bin/initTex \
+	       /usr/local/bin/mvExec \
+	       /usr/local/bin/rmExec \
+	       /usr/local/bin/rmphotos \
+	       /usr/local/bin/V1933bigComment \
+	       /usr/local/bin/V1933disableExec \
+	       /usr/local/bin/V1933enableExec \
+	       /usr/local/bin/V1933makeExec \
+	       /usr/local/bin/V1933makeSelinux \
+	       /usr/local/share/V1933
+	test -e /var/tmp/fixWifid.log && rm /var/tmp/fixWifid.log || true
 
 clean:
 	rm -rf variables V1933bigComment

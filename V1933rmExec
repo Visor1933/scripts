@@ -1,3 +1,3 @@
 #!/bin/sh
 . /usr/share/V1933/variables
-sudo -p sudo rm -f "/usr/bin/$1" "$wd/$1"
+sudo -p sudo rm -f "/usr/local/bin/$1" "$wd/$1"

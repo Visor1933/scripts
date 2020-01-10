@@ -1,11 +1,12 @@
 #!/bin/sh
 . /usr/share/V1933/variables
-cd "$wd"
+# $wd is main directory of scripts project
+ln -s "$PWD/$1" "$wd/$1" || true
 if [ -f $1 ]; then
-	chmod +x $1
-	if [ -L /usr/bin/$1 ]; then
+	chmod +x "$PWD/$1"
+	if [ -L /usr/local/bin/$1 ]; then
 		echo "$1 allready exists"
 	else
-		sudo -p "sudo password for creating symboled link in /usr/bin" ln -s "$wd/$1" "/usr/bin/$1"
+		sudo -p "sudo password for creating symboled link in /usr/bin" ln -s "$wd/$1" "/usr/local/bin/$1"
 	fi
 fi

@@ -10,6 +10,7 @@ int main(int argc, char *argv[]){
 	int            j = 0;
 	int            effectiveStrlen = 0;
 	int            arg = 0;
+	char           nothing = '\0';
 	char          *inpText;
 	char          *outString;
 	char          *printString;
@@ -303,6 +304,9 @@ int main(int argc, char *argv[]){
 				printString = numbers[convertNumber(outString + j)][i];
 			}else if (isSpace(outString + j)){
 				printString = space;
+			}
+			else {
+				printString = &nothing;
 			}
 			printf("%s", printString);
 			if (j < *maxChars - 1){
