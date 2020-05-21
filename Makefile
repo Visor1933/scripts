@@ -13,13 +13,9 @@ install:
 		V1933makeExec findEverywhere & \
 		V1933makeExec fixWifi & \
 		V1933makeExec fixWifid & \
-		V1933makeExec getphotos & \
 		V1933makeExec initbash & \
 		V1933makeExec initsh & \
 		V1933makeExec initTex & \
-		V1933makeExec mvExec & \
-		V1933makeExec rmExec & \
-		V1933makeExec rmphotos & \
 		V1933makeExec V1933bigComment & \
 		V1933makeExec V1933commit & \
 		V1933makeExec V1933disableExec & \
@@ -31,7 +27,6 @@ install:
 	sleep 1
 
 dep:
-	test -e /bin/gphoto2 || dnf -y install gphoto2 || emerge -v gphoto2 || apt -y install gphoto2
 	test -e /bin/gcc     || dnf -y install gcc || emerge -v gcc || apt -y install gcc
 	test -e /bin/dash    || dnf -y install dash || emerge -v dash || apt -y install dash
 
